@@ -1,0 +1,23 @@
+ONLINE EXAMINATION SYSTEM IN PHP
+
+**LOGIN DETAILS** 
+
+first register then login
+
+**ADMIN PANEL**
+
+Username : admin
+Password : 1234
+
+DEVELOPED BY CST 6th sem students
+
+***First open xampp control panel and start apache and MySQL
+
+Then click admin of MySQL to open database
+
+Then CREATE A DATABASE NAMING "majorproject" AND IMPORT THE SQL FILE.
+WITHOUT THE DATABASE THE PROJECT WON'T RUN.
+
+paste those files in a folder and paste this folder to the path - C://xampp/htdocs/
+
+and give address localhost/filename to run this project***

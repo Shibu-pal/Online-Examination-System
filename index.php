@@ -1,0 +1,41 @@
+<?php include 'inc/header.php'; ?>
+<?php
+if(isset($_SESSION['login'])){
+  header("location:exam.php");
+}
+?>
+<div class="main">
+<h1>Online Exam System - User Login</h1>
+	<div class="segment" style="margin-right:30px;">
+		<img src="img/login.png"/>
+	</div>
+	<div class="segment">
+	<form action="<?php $_SERVER['PHP_SELF']?>" method="post">
+		<table class="tbl">    
+			 <tr>
+			   <td>Email</td>
+			   <td><input name="email" type="email" id="email"></td>
+			 </tr>
+			 <tr>
+			   <td>Password </td>
+			   <td><input name="password" type="password" id="password"></td>
+			 </tr>
+			 
+			  <tr>
+			  <td></td>
+			   <td><input type="submit" id="loginsubmit" value="Login" name="login">
+			   </td>
+			 </tr>
+       </table>
+	   </form>
+	   <p>New User ? <a href="register.php">Signup</a> Free</p>
+	   <?php echo $massage; ?>
+	   <span class="empty" style="display: none;">Field must not be empty !</span>
+	   <span class="error" style="display: none;">Email or Password not matched !</span>
+	   <span class="disable" style="display: none;">User Id disabled !</span>
+	</div>
+
+
+	
+</div>
+<?php include 'inc/footer.php'; ?>
