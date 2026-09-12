@@ -1,9 +1,7 @@
 <?php
-include("../config/config.php");
-session_start();
-if(!isset($_SESSION['admin_login'])){
-	header("location:login.php");
-}
+define('ADMIN_AREA', true);
+require_once __DIR__ . '/../../inc/bootstrap.php';
+require_admin_login();
 ?>
 <!doctype html>
 <html>
@@ -11,7 +9,6 @@ if(!isset($_SESSION['admin_login'])){
 	<title>Admin</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<meta http-equiv="Pragma" content="no-cache">
-	<meta http-equiv="no-cache">
 	<meta http-equiv="Expires" content="-1">
 	<meta http-equiv="Cache-Control" content="no-cache">
 	<link rel="stylesheet" href="css/admin.css">
@@ -19,8 +16,6 @@ if(!isset($_SESSION['admin_login'])){
 <body>
 <div class="phpcoding">
 	<section class="headeroption"></section>
-
-	
 		<section class="maincontent">
 		<div class="menu">
 		<ul>
@@ -31,4 +26,3 @@ if(!isset($_SESSION['admin_login'])){
 			<li><a href="logout.php">Logout</a></li>
 		</ul>
 	 </div>
-	

@@ -1,1 +1,2 @@
-config/config.php
+# Copy config.example.php to config.php if you need local credentials.
+# Default XAMPP settings are committed in config/config.php.

@@ -1,13 +1,14 @@
 <?php
-include("../config/config.php");
-session_start();
-if(!isset($_SESSION['admin_login'])){
-	header("location:login.php");
+define('ADMIN_AREA', true);
+require_once __DIR__ . '/../inc/bootstrap.php';
+require_admin_login();
+
+$id = filter_input(INPUT_GET, 'delque', FILTER_VALIDATE_INT);
+if ($id === false || $id === null || $id < 1) {
+    redirect('queslist.php');
 }
-$id=$_GET['delque'];
-$SQL="DELETE FROM question WHERE question_id = '$id'";
-$Query=mysqli_query($conn,$SQL);
-if ($Query) {
-   header("location:queslist.php");
-}
-?>
+
+$stmt = db_prepare($conn, 'DELETE FROM question WHERE question_id = ?', 'i', array($id));
+$stmt->execute();
+$stmt->close();
+redirect('queslist.php');

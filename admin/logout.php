@@ -1,6 +1,6 @@
 <?php
-session_start();
+define('ADMIN_AREA', true);
+require_once __DIR__ . '/../inc/bootstrap.php';
 session_unset();
 session_destroy();
-header("location:login.php");
-?>
+redirect('login.php');

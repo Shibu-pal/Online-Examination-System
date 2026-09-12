@@ -1,49 +1,60 @@
-<?php include 'inc/header.php'; ?>
 <?php
-if(!isset($_SESSION['login'])){
-  header("location:index.php");
-}
-?>
+require_once __DIR__ . '/inc/bootstrap.php';
+require_student_login();
 
-<?php
-if (isset($_GET['q'])&&isset($_GET['n'])) {
-	$que_no=$_GET['q'];
-	$number=$_GET['n'];
+$que_no = filter_input(INPUT_GET, 'q', FILTER_VALIDATE_INT);
+$number = filter_input(INPUT_GET, 'n', FILTER_VALIDATE_INT);
+if ($que_no === false || $que_no === null || $number === false || $number === null || $que_no < 1 || $number < 1) {
+    redirect('starttest.php');
 }
-$SQL="SELECT * FROM question WHERE question_id = $que_no;";
-$Query1=mysqli_query($conn,$SQL);
-$SQL="SELECT * FROM question";
-$Query2=mysqli_query($conn,$SQL);
-$total=mysqli_num_rows($Query2);
-$result=mysqli_fetch_assoc($Query1);
-?>
 
+$stmt = db_prepare($conn, 'SELECT * FROM question WHERE question_id = ? LIMIT 1', 'i', array($que_no));
+$stmt->execute();
+$result = $stmt->get_result()->fetch_assoc();
+$stmt->close();
+
+if (!$result) {
+    redirect('starttest.php');
+}
+
+$countStmt = db_prepare($conn, 'SELECT COUNT(*) AS total FROM question');
+$countStmt->execute();
+$totalRow = $countStmt->get_result()->fetch_assoc();
+$countStmt->close();
+$total = (int) ($totalRow['total'] ?? 0);
+
+$emptyError = isset($_GET['e']);
+
+require_once __DIR__ . '/inc/header.php';
+?>
 <div class="main">
-<h1>Question <?php echo $number; ?> of <?php echo $total; ?></h1>
+<h1>Question <?php echo (int) $number; ?> of <?php echo $total; ?></h1>
 	<div class="test">
+		<?php if ($emptyError) { ?>
+			<p class="error">Please select an answer.</p>
+		<?php } ?>
 		<form method="post" action="que_operation.php">
-		<table> 
+		<table>
 			<tr>
 				<td colspan="2">
-				 <h3>Que <?php echo $number; ?>: <?php echo $result['question']; ?></h3>
+				 <h3>Que <?php echo (int) $number; ?>: <?php echo e($result['question']); ?></h3>
 				</td>
 			</tr>
 			<tr>
 				<td>
-				 <input type="radio" name="ans" value="1" /><?php echo $result['option1']; ?><br>
-				 <input type="radio" name="ans" value="2" /><?php echo $result['option2']; ?><br>
-				 <input type="radio" name="ans" value="3" /><?php echo $result['option3']; ?><br>
-				 <input type="radio" name="ans" value="4" /><?php echo $result['option4']; ?>
+				 <input type="radio" name="ans" value="1" /><?php echo e($result['option1']); ?><br>
+				 <input type="radio" name="ans" value="2" /><?php echo e($result['option2']); ?><br>
+				 <input type="radio" name="ans" value="3" /><?php echo e($result['option3']); ?><br>
+				 <input type="radio" name="ans" value="4" /><?php echo e($result['option4']); ?>
 				</td>
 			</tr>
 			<tr>
 			  <td>
-				  <input type="hidden" name="q" value="<?php echo $que_no; ?>" />
-				  <input type="hidden" name="n" value="<?php echo $number; ?>" />
+				  <input type="hidden" name="q" value="<?php echo (int) $que_no; ?>" />
+				  <input type="hidden" name="n" value="<?php echo (int) $number; ?>" />
 				  <input type="submit" name="submit" value="Next Question"/>
 			</td>
 			</tr>
-			
 		</table>
 	</form>
 </div>

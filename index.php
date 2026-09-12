@@ -1,8 +1,7 @@
-<?php include 'inc/header.php'; ?>
 <?php
-if(isset($_SESSION['login'])){
-  header("location:exam.php");
-}
+require_once __DIR__ . '/inc/bootstrap.php';
+require_student_guest();
+require_once __DIR__ . '/inc/header.php';
 ?>
 <div class="main">
 <h1>Online Exam System - User Login</h1>
@@ -10,17 +9,16 @@ if(isset($_SESSION['login'])){
 		<img src="img/login.png"/>
 	</div>
 	<div class="segment">
-	<form action="<?php $_SERVER['PHP_SELF']?>" method="post">
-		<table class="tbl">    
+	<form action="" method="post">
+		<table class="tbl">
 			 <tr>
 			   <td>Email</td>
-			   <td><input name="email" type="email" id="email"></td>
+			   <td><input name="email" type="email" id="email" required></td>
 			 </tr>
 			 <tr>
 			   <td>Password </td>
-			   <td><input name="password" type="password" id="password"></td>
+			   <td><input name="password" type="password" id="password" required></td>
 			 </tr>
-			 
 			  <tr>
 			  <td></td>
 			   <td><input type="submit" id="loginsubmit" value="Login" name="login">
@@ -29,13 +27,7 @@ if(isset($_SESSION['login'])){
        </table>
 	   </form>
 	   <p>New User ? <a href="register.php">Signup</a> Free</p>
-	   <?php echo $massage; ?>
-	   <span class="empty" style="display: none;">Field must not be empty !</span>
-	   <span class="error" style="display: none;">Email or Password not matched !</span>
-	   <span class="disable" style="display: none;">User Id disabled !</span>
+	   <?php echo $message; ?>
 	</div>
-
-
-	
 </div>
 <?php include 'inc/footer.php'; ?>

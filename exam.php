@@ -1,8 +1,7 @@
-<?php include 'inc/header.php'; ?>
 <?php
-if(!isset($_SESSION['login'])){
-  header("location:index.php");
-}
+require_once __DIR__ . '/inc/bootstrap.php';
+require_student_login();
+require_once __DIR__ . '/inc/header.php';
 ?>
 <div class="main">
 <h1>Welcome to Online Exam - Start Now</h1>
@@ -15,6 +14,5 @@ if(!isset($_SESSION['login'])){
 		<li><a href="starttest.php">Start Now...</a></li>
 	</ul>
 	</div>
-	
-  </div>
+</div>
 <?php include 'inc/footer.php'; ?>
