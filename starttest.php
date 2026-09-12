@@ -1,23 +1,22 @@
-<?php include 'inc/header.php'; ?>
 <?php
-if(!isset($_SESSION['login'])){
-  header("location:index.php");
-}
-if (isset($_SESSION['score'])) {
-	unset($_SESSION['score']);
-}
-if (isset($_SESSION['user_answers'])) {
-    unset($_SESSION['user_answers']);
-}
-?>
+require_once __DIR__ . '/inc/bootstrap.php';
+require_student_login();
 
-<?php
-$SQL="SELECT * FROM question;";
-$Query=mysqli_query($conn,$SQL);
-$total=mysqli_num_rows($Query);
-$result=mysqli_fetch_assoc($Query);
-?>
+unset($_SESSION['score'], $_SESSION['user_answers']);
 
+$stmt = db_prepare($conn, 'SELECT question_id FROM question ORDER BY question_id ASC LIMIT 1');
+$stmt->execute();
+$first = $stmt->get_result()->fetch_assoc();
+$stmt->close();
+
+$countStmt = db_prepare($conn, 'SELECT COUNT(*) AS total FROM question');
+$countStmt->execute();
+$totalRow = $countStmt->get_result()->fetch_assoc();
+$countStmt->close();
+$total = (int) ($totalRow['total'] ?? 0);
+
+require_once __DIR__ . '/inc/header.php';
+?>
 <div class="main">
 <h1>Welcome to Online Exam</h1>
 	<div class="starttest">
@@ -29,9 +28,11 @@ $result=mysqli_fetch_assoc($Query);
 			<li><strong>Question Type:</strong> Multiple Choice</li>
 		</ul>
 
-		<a href="test.php?q=<?php echo $result['question_id'] ?>&n=1">Start Test</a>
-
+		<?php if ($total > 0 && $first) { ?>
+			<a href="test.php?q=<?php echo (int) $first['question_id']; ?>&amp;n=1">Start Test</a>
+		<?php } else { ?>
+			<p class="error">No questions available. Please contact the admin.</p>
+		<?php } ?>
 	</div>
-
-  </div>
+</div>
 <?php include 'inc/footer.php'; ?>

@@ -1,8 +1,7 @@
-<?php include 'inc/header.php'; ?>
 <?php
-if(isset($_SESSION['login'])){
-  header("location:starttest.php");
-}
+require_once __DIR__ . '/inc/bootstrap.php';
+require_student_guest();
+require_once __DIR__ . '/inc/header.php';
 ?>
 <div class="main">
 <h1>Online Exam System - User Registration</h1>
@@ -10,24 +9,23 @@ if(isset($_SESSION['login'])){
 		<img src="img/register.png"/>
 	</div>
 	<div class="segment">
-	<form action="<?php $_SERVER['PHP_SELF']?>" method="POST">
+	<form action="" method="post">
 		<table>
 		<tr>
            <td>Name</td>
-           <td><input type="text" name="name" id="name" ></td>
+           <td><input type="text" name="name" id="name" required></td>
          </tr>
 		<tr>
            <td>Username</td>
-           <td><input name="username" type="text" id="username" ></td>
+           <td><input name="username" type="text" id="username" required></td>
          </tr>
          <tr>
            <td>Password</td>
-           <td><input type="password" name="password" id="password"></td>
-            <td></p></td>
+           <td><input type="password" name="password" id="password" required></td>
          </tr>
          <tr>
            <td>E-mail</td>
-           <td><input name="email" type="text" id="email" ></td>
+           <td><input name="email" type="email" id="email" required></td>
          </tr>
          <tr>
            <td></td>
@@ -36,13 +34,8 @@ if(isset($_SESSION['login'])){
          </tr>
        </table>
 	   </form>
-     <?php echo $massage ?>
+     <?php echo $message; ?>
 	   <p>Already Registered ? <a href="index.php">Login</a> Here</p>
-     
-     <span id="state"></span>
 	</div>
-
-
-	
 </div>
 <?php include 'inc/footer.php'; ?>

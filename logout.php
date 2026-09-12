@@ -1,6 +1,5 @@
 <?php
-session_start();
+require_once __DIR__ . '/inc/bootstrap.php';
 session_unset();
 session_destroy();
-header('location:index.php');
-?>
+redirect('index.php');
